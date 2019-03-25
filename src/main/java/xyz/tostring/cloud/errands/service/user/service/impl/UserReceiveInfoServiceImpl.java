@@ -3,7 +3,7 @@ package xyz.tostring.cloud.errands.service.user.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.tostring.cloud.errands.common.service.util.SnowflakeIdWorker;
-import xyz.tostring.cloud.errands.service.user.dao.UserReceiveInfoDao;
+import xyz.tostring.cloud.errands.service.user.repository.UserReceiveInfoRepository;
 import xyz.tostring.cloud.errands.service.user.entity.UserReceiveInfoDO;
 import xyz.tostring.cloud.errands.service.user.service.UserReceiveInfoService;
 
@@ -20,7 +20,7 @@ public class UserReceiveInfoServiceImpl implements UserReceiveInfoService {
     private SnowflakeIdWorker snowflakeIdWorker;
 
     @Autowired
-    private UserReceiveInfoDao userReceiveInfoDao;
+    private UserReceiveInfoRepository userReceiveInfoRepository;
 
     @Override
     public UserReceiveInfoDO createReceiveInfo(UserReceiveInfoDO userReceiveInfoDO) {
@@ -29,7 +29,7 @@ public class UserReceiveInfoServiceImpl implements UserReceiveInfoService {
         userReceiveInfoDO.setCreateTime(date);
         userReceiveInfoDO.setUpdateTime(date);
         userReceiveInfoDO.setSortWeight(DEFAULT_WEIGHT);
-        userReceiveInfoDao.save(userReceiveInfoDO);
+        userReceiveInfoRepository.save(userReceiveInfoDO);
         return userReceiveInfoDO;
     }
 
@@ -37,14 +37,14 @@ public class UserReceiveInfoServiceImpl implements UserReceiveInfoService {
     public UserReceiveInfoDO updateReceiveInfo(UserReceiveInfoDO userReceiveInfoDO) {
         Date date = new Date();
         userReceiveInfoDO.setUpdateTime(date);
-        userReceiveInfoDao.save(userReceiveInfoDO);
+        userReceiveInfoRepository.save(userReceiveInfoDO);
         return userReceiveInfoDO;
     }
 
     @Override
     public UserReceiveInfoDO setAsDefaultReceiveInfo(UserReceiveInfoDO userReceiveInfoDO) {
         List<UserReceiveInfoDO> userReceiveInfoDOList = listAllByUserOpenId(userReceiveInfoDO.getUserOpenId());
-        userReceiveInfoDO = userReceiveInfoDao.getOne(userReceiveInfoDO.getId());
+        userReceiveInfoDO = userReceiveInfoRepository.getOne(userReceiveInfoDO.getId());
         if (userReceiveInfoDOList != null) {
             int currentMaxWeight = userReceiveInfoDOList.get(0).getSortWeight();
             userReceiveInfoDO.setSortWeight(currentMaxWeight + WEIGHT_STEP);
@@ -59,7 +59,7 @@ public class UserReceiveInfoServiceImpl implements UserReceiveInfoService {
 
     @Override
     public UserReceiveInfoDO deleteReceiveInfo(UserReceiveInfoDO userReceiveInfoDO) {
-        userReceiveInfoDao.delete(userReceiveInfoDO);
+        userReceiveInfoRepository.delete(userReceiveInfoDO);
         return userReceiveInfoDO;
     }
 
@@ -70,11 +70,11 @@ public class UserReceiveInfoServiceImpl implements UserReceiveInfoService {
 
     @Override
     public List<UserReceiveInfoDO> listAllByUserOpenId(String userOpenId) {
-        return userReceiveInfoDao.findAllByUserOpenIdOrderBySortWeightDescUpdateTimeDesc(userOpenId);
+        return userReceiveInfoRepository.findAllByUserOpenIdOrderBySortWeightDescUpdateTimeDesc(userOpenId);
     }
 
     @Override
     public UserReceiveInfoDO getById(Long id) {
-        return userReceiveInfoDao.getOne(id);
+        return userReceiveInfoRepository.findById(id).orElse(null);
     }
 }
