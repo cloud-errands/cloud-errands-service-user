@@ -14,6 +14,7 @@ public class UserReceiveInfoController {
     @Autowired
     private UserReceiveInfoService userReceiveInfoService;
 
+    @CrossOrigin
     @PostMapping
     public BaseResult create(@RequestBody UserReceiveInfoDO userReceiveInfoDO) {
         BaseResult baseResult = new BaseResult();
@@ -21,6 +22,7 @@ public class UserReceiveInfoController {
         return baseResult.ok(userReceiveInfoDO);
     }
 
+    @CrossOrigin
     @PutMapping
     public BaseResult update(@RequestBody UserReceiveInfoDO userReceiveInfoDO) {
         BaseResult baseResult = new BaseResult();
@@ -28,6 +30,7 @@ public class UserReceiveInfoController {
         return baseResult.ok(userReceiveInfoDO);
     }
 
+    @CrossOrigin
     @DeleteMapping
     public BaseResult delete(@RequestBody UserReceiveInfoDO userReceiveInfoDO) {
         BaseResult baseResult = new BaseResult();
@@ -35,6 +38,7 @@ public class UserReceiveInfoController {
         return baseResult.ok(userReceiveInfoDO);
     }
 
+    @CrossOrigin
     @GetMapping("list/{userOpenId}")
     public BaseResult listByUserOpenId(@PathVariable String userOpenId) {
         BaseResult baseResult = new BaseResult();
@@ -42,6 +46,7 @@ public class UserReceiveInfoController {
         return baseResult.ok(userReceiveInfoDOList);
     }
 
+    @CrossOrigin
     @GetMapping("{id}")
     public BaseResult getOne(@PathVariable Long id) {
         BaseResult baseResult = new BaseResult();
@@ -49,6 +54,7 @@ public class UserReceiveInfoController {
         return baseResult.ok(userReceiveInfoDO);
     }
 
+    @CrossOrigin
     @PutMapping("as-default")
     public BaseResult setAsDefault(@RequestBody UserReceiveInfoDO userReceiveInfoDO) {
         BaseResult baseResult = new BaseResult();
