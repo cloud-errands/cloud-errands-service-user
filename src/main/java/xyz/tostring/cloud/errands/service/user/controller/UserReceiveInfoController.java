@@ -9,7 +9,7 @@ import xyz.tostring.cloud.errands.service.user.service.UserReceiveInfoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/receive-info")
+@RequestMapping("/receive-info")
 public class UserReceiveInfoController {
     @Autowired
     private UserReceiveInfoService userReceiveInfoService;
