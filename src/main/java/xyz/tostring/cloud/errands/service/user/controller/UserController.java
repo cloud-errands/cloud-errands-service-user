@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @CrossOrigin
-    @GetMapping("/getOpenId")
-    public BaseResult getUserOpenId(String jsCode) {
+    @GetMapping("/openId/{jsCode}")
+    public BaseResult getUserOpenId(@PathVariable String jsCode) {
         Map<String, String> uriVariables = new HashMap<>();
         BaseResult baseResult = new BaseResult();
         uriVariables.put("appid", WXCosnt.APP_ID);
