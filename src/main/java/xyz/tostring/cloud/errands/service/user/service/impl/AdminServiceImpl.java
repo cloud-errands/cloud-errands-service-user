@@ -1,6 +1,9 @@
 package xyz.tostring.cloud.errands.service.user.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import xyz.tostring.cloud.errands.common.service.util.SnowflakeIdWorker;
@@ -78,5 +81,23 @@ public class AdminServiceImpl implements AdminService {
             adminDO.setFrozen(0);
             adminRepository.save(adminDO);
         }
+    }
+
+    @Override
+    public Page<AdminDO> findAllNoCriteria(Integer page, Integer size) {
+        PageRequest pageRequest = pageRequest(page, size, Sort.Direction.ASC, "id");
+        return adminRepository.findAll(pageRequest);
+    }
+
+    private PageRequest pageRequest(Integer page, Integer size, Sort.Direction direction, String properties) {
+        if (null == page || page < 1) {
+            page = 0;
+        } else {
+            page = page - 1;
+        }
+        if (null == size || size <= 0) {
+            size = 10;
+        }
+        return PageRequest.of(page, size, direction, properties);
     }
 }

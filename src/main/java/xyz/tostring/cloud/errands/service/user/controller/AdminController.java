@@ -78,4 +78,9 @@ public class AdminController {
         adminService.unfreezingAdmin(id);
         return new BaseResult().ok();
     }
+
+    @GetMapping("list/{page}/{size}")
+    public BaseResult listAdmin(@PathVariable Integer page, @PathVariable Integer size) {
+        return new BaseResult().ok(adminService.findAllNoCriteria(page, size));
+    }
 }
